@@ -1,4 +1,4 @@
-﻿namespace AspNetCoreWebApp.ApiEndpoint.Models
+﻿namespace AspNetCoreWebApp.UsersApp.Models
 {
     public class User
     {

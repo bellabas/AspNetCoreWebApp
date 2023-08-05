@@ -1,7 +1,7 @@
-﻿using AspNetCoreWebApp.ApiEndpoint.Models;
+﻿using AspNetCoreWebApp.UsersApp.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace AspNetCoreWebApp.ApiEndpoint.Database
+namespace AspNetCoreWebApp.UsersApp.Database
 {
     public class UserDbContext : DbContext
     {
