@@ -20,7 +20,7 @@ namespace AspNetCoreWebApp.UsersApp
             // Add services to the container.
             builder.Services.AddRazorPages();
 
-            // Swagger
+            // Swagger and API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -33,9 +33,6 @@ namespace AspNetCoreWebApp.UsersApp
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
@@ -52,6 +49,7 @@ namespace AspNetCoreWebApp.UsersApp
 
             app.MapRazorPages();
 
+            // MINIMAL API
             // ReadAll
             app.MapGet("/api/users", async (UserDbContext db) => await db.Users.ToListAsync());
             // Read
