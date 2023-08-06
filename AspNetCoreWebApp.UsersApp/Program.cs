@@ -1,5 +1,7 @@
 using AspNetCoreWebApp.UsersApp.Database;
 using AspNetCoreWebApp.UsersApp.Models;
+using AspNetCoreWebApp.UsersApp.Services;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCoreWebApp.UsersApp
@@ -24,6 +26,10 @@ namespace AspNetCoreWebApp.UsersApp
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            // Register HttpClient
+            builder.Services.AddHttpClient<ApiClientService>();
+            builder.Services.AddScoped<ApiClientService>();
 
             var app = builder.Build();
 
@@ -59,7 +65,7 @@ namespace AspNetCoreWebApp.UsersApp
             {
                 db.Users.Add(user);
                 await db.SaveChangesAsync();
-                return Results.Created($"/users/{user.Id}", user);
+                return Results.Created($"/api/users/{user.Id}", user);
             });
             // Update
             app.MapPut("/api/users/{id}", async (UserDbContext db, int id, User user) =>
@@ -76,7 +82,7 @@ namespace AspNetCoreWebApp.UsersApp
 
                 await db.SaveChangesAsync();
 
-                return Results.Ok(user);
+                return Results.Ok(userToUpdate);
             });
             // Delete
             app.MapDelete("/api/users/{id}", async (UserDbContext db, int id) =>
