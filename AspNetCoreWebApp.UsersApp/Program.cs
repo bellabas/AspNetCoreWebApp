@@ -1,4 +1,5 @@
 using AspNetCoreWebApp.UsersApp.Database;
+using AspNetCoreWebApp.UsersApp.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCoreWebApp.UsersApp
@@ -12,10 +13,6 @@ namespace AspNetCoreWebApp.UsersApp
             // Add services to the container.
             builder.Services.AddAuthorization();
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
             // Add DbContext
             builder.Services.AddDbContext<UserDbContext>();
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -23,7 +20,15 @@ namespace AspNetCoreWebApp.UsersApp
             // Add services to the container.
             builder.Services.AddRazorPages();
 
+            // Swagger
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+
             var app = builder.Build();
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -43,21 +48,23 @@ namespace AspNetCoreWebApp.UsersApp
 
             app.UseAuthorization();
 
+            app.UseEndpoints(endpoints => endpoints.MapSwagger());
+
             app.MapRazorPages();
 
             // ReadAll
-            app.MapGet("/users", async (UserDbContext db) => await db.Users.ToListAsync());
+            app.MapGet("/api/users", async (UserDbContext db) => await db.Users.ToListAsync());
             // Read
-            app.MapGet("/users/{id}", async (UserDbContext db, int id) => await db.Users.FindAsync(id) is User user ? Results.Ok(user) : Results.NotFound());
+            app.MapGet("/api/users/{id}", async (UserDbContext db, int id) => await db.Users.FindAsync(id) is User user ? Results.Ok(user) : Results.NotFound());
             // Create
-            app.MapPost("/users", async (UserDbContext db, User user) =>
+            app.MapPost("/api/users", async (UserDbContext db, User user) =>
             {
                 db.Users.Add(user);
                 await db.SaveChangesAsync();
                 return Results.Created($"/users/{user.Id}", user);
             });
             // Update
-            app.MapPut("/users/{id}", async (UserDbContext db, int id, User user) =>
+            app.MapPut("/api/users/{id}", async (UserDbContext db, int id, User user) =>
             {
                 var userToUpdate = await db.Users.FindAsync(id);
 
@@ -74,7 +81,7 @@ namespace AspNetCoreWebApp.UsersApp
                 return Results.Ok(user);
             });
             // Delete
-            app.MapDelete("/users/{id}", async (UserDbContext db, int id) =>
+            app.MapDelete("/api/users/{id}", async (UserDbContext db, int id) =>
             {
                 if (await db.Users.FindAsync(id) is User userToDelete)
                 {

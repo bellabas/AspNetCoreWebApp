@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreWebApp.MyExample", "AspNetCoreWebApp.MyExample\AspNetCoreWebApp.MyExample.csproj", "{6BD32821-1D7A-4F19-BBAE-91D45B1541E6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreWebApp.ApiEndpoint", "AspNetCoreWebApp.ApiEndpoint\AspNetCoreWebApp.ApiEndpoint.csproj", "{3853C730-4C92-434D-8559-4DF0A73D8669}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreWebApp.UsersApp", "AspNetCoreWebApp.UsersApp\AspNetCoreWebApp.UsersApp.csproj", "{525317F3-EBBB-4146-812C-D50329B8C32A}"
 EndProject
 Global
@@ -15,14 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6BD32821-1D7A-4F19-BBAE-91D45B1541E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6BD32821-1D7A-4F19-BBAE-91D45B1541E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6BD32821-1D7A-4F19-BBAE-91D45B1541E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6BD32821-1D7A-4F19-BBAE-91D45B1541E6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3853C730-4C92-434D-8559-4DF0A73D8669}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3853C730-4C92-434D-8559-4DF0A73D8669}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3853C730-4C92-434D-8559-4DF0A73D8669}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3853C730-4C92-434D-8559-4DF0A73D8669}.Release|Any CPU.Build.0 = Release|Any CPU
 		{525317F3-EBBB-4146-812C-D50329B8C32A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{525317F3-EBBB-4146-812C-D50329B8C32A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{525317F3-EBBB-4146-812C-D50329B8C32A}.Release|Any CPU.ActiveCfg = Release|Any CPU
