@@ -1,5 +1,5 @@
 ﻿using AspNetCoreWebApp.UsersApp.Models;
-using Newtonsoft.Json;
+//using Newtonsoft.Json;
 
 namespace AspNetCoreWebApp.UsersApp.Services
 {
@@ -10,8 +10,8 @@ namespace AspNetCoreWebApp.UsersApp.Services
         {
             _httpClient = httpClient;
             _httpClient.BaseAddress = new Uri("https://localhost:7222/api/");
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            //_httpClient.DefaultRequestHeaders.Accept.Clear();
+            //_httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         public async Task<IEnumerable<User>?> ReadAllAsync()
@@ -19,8 +19,9 @@ namespace AspNetCoreWebApp.UsersApp.Services
             var response = await _httpClient.GetAsync("users");
             if (response.IsSuccessStatusCode)
             {
-                var responseStream = await response.Content.ReadAsStringAsync();
-                var users = JsonConvert.DeserializeObject<IEnumerable<User>>(responseStream);
+                //var responseString = await response.Content.ReadAsStringAsync();
+                //var users = JsonConvert.DeserializeObject<IEnumerable<User>>(responseString);
+                var users = await response.Content.ReadAsAsync<IEnumerable<User>>();
                 return users;
             }
             return null;
@@ -31,41 +32,30 @@ namespace AspNetCoreWebApp.UsersApp.Services
             var response = await _httpClient.GetAsync($"users/{username}");
             if (response.IsSuccessStatusCode)
             {
-                var responseString = await response.Content.ReadAsStringAsync();
-                var user = JsonConvert.DeserializeObject<User>(responseString);
+                //var responseString = await response.Content.ReadAsStringAsync();
+                //var user = JsonConvert.DeserializeObject<User>(responseString);
+                var user = await response.Content.ReadAsAsync<User>();
                 return user;
             }
             return null;
         }
 
-        public async Task<User?> CreateAsync(User user)
+        public async Task<bool> CreateAsync(User user)
         {
             var response = await _httpClient.PostAsJsonAsync("users", user);
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadFromJsonAsync<User>();
-            }
-            return null;
+            return response.IsSuccessStatusCode;
         }
 
-        public async Task<User?> UpdateAsync(User user)
+        public async Task<bool> UpdateAsync(User user)
         {
             var response = await _httpClient.PutAsJsonAsync($"users/{user.Username}", user);
-            if(response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadFromJsonAsync<User>();
-            }
-            return null;
+            return response.IsSuccessStatusCode;
         }
 
-        public async Task<User?> DeleteAsync(string username)
+        public async Task<bool> DeleteAsync(string username)
         {
             var response = await _httpClient.DeleteAsync($"users/{username}");
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadFromJsonAsync<User>();
-            }
-            return null;
+            return response.IsSuccessStatusCode;
         }
 
     }

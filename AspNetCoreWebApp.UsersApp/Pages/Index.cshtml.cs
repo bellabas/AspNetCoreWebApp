@@ -11,7 +11,7 @@ namespace AspNetCoreWebApp.UsersApp.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly ApiClientService _apiClientService;
 
-        [BindProperty(SupportsGet = true)]
+        [BindProperty]
         public User LoginUser { get; set; }
         public IndexModel(ILogger<IndexModel> logger, ApiClientService apiClientService)
         {
