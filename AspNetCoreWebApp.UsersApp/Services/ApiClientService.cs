@@ -1,5 +1,4 @@
 ﻿using AspNetCoreWebApp.UsersApp.Models;
-using System.Text.Json;
 using Newtonsoft.Json;
 
 namespace AspNetCoreWebApp.UsersApp.Services
@@ -29,7 +28,7 @@ namespace AspNetCoreWebApp.UsersApp.Services
 
         public async Task<User?> ReadAsync(string username)
         {
-            var response = await _httpClient.GetAsync("users/" + username);
+            var response = await _httpClient.GetAsync($"users/{username}");
             if (response.IsSuccessStatusCode)
             {
                 var responseString = await response.Content.ReadAsStringAsync();
