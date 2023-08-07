@@ -10,7 +10,7 @@ namespace AspNetCoreWebApp.UsersApp.Database
             Database.EnsureCreated();
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> Users => Set<User>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -22,8 +22,8 @@ namespace AspNetCoreWebApp.UsersApp.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().ToTable("Users").HasKey(x => x.Id);
-            modelBuilder.Entity<User>().HasData(new User { Id = 1, Username = "admin", Password = "admin" });
+            modelBuilder.Entity<User>().ToTable("Users").HasKey(x => x.Username);
+            modelBuilder.Entity<User>().HasData(new User { Username = "admin", Password = "admin" });
         }
     }
 }

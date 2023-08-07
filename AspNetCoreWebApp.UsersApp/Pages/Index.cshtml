@@ -5,6 +5,11 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Login</h1>
+    <form method="post" name="loginForm">
+        <input name="Username" placeholder="username" type="text" required asp-for="LoginUser.Username" />
+        <input name="Password" placeholder="password" type="password" required asp-for="LoginUser.Password" />
+        <input type="submit" value="Login"/>
+    </form>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>

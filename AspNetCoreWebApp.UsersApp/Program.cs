@@ -16,7 +16,7 @@ namespace AspNetCoreWebApp.UsersApp
             builder.Services.AddAuthorization();
 
             // Add DbContext
-            builder.Services.AddDbContext<UserDbContext>();
+            builder.Services.AddDbContext<UserDbContext>(opt => opt.UseInMemoryDatabase("User"));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             // Add services to the container.
@@ -28,6 +28,7 @@ namespace AspNetCoreWebApp.UsersApp
             builder.Services.AddSwaggerGen();
 
             // Register HttpClient
+            builder.Services.AddScoped<HttpClient>();
             builder.Services.AddHttpClient<ApiClientService>();
             builder.Services.AddScoped<ApiClientService>();
 
@@ -59,25 +60,24 @@ namespace AspNetCoreWebApp.UsersApp
             // ReadAll
             app.MapGet("/api/users", async (UserDbContext db) => await db.Users.ToListAsync());
             // Read
-            app.MapGet("/api/users/{id}", async (UserDbContext db, int id) => await db.Users.FindAsync(id) is User user ? Results.Ok(user) : Results.NotFound());
+            app.MapGet("/api/users/{username}", async (UserDbContext db, string username) => await db.Users.FindAsync(username) is User user ? Results.Ok(user) : Results.NotFound());
             // Create
             app.MapPost("/api/users", async (UserDbContext db, User user) =>
             {
                 db.Users.Add(user);
                 await db.SaveChangesAsync();
-                return Results.Created($"/api/users/{user.Id}", user);
+                return Results.Created($"/api/users/{user.Username}", user);
             });
             // Update
-            app.MapPut("/api/users/{id}", async (UserDbContext db, int id, User user) =>
+            app.MapPut("/api/users/{username}", async (UserDbContext db, User user) =>
             {
-                var userToUpdate = await db.Users.FindAsync(id);
+                var userToUpdate = await db.Users.FindAsync(user.Username);
 
                 if (userToUpdate is null)
                 {
                     return Results.NotFound();
                 }
 
-                userToUpdate.Username = user.Username;
                 userToUpdate.Password = user.Password;
 
                 await db.SaveChangesAsync();
@@ -85,9 +85,9 @@ namespace AspNetCoreWebApp.UsersApp
                 return Results.Ok(userToUpdate);
             });
             // Delete
-            app.MapDelete("/api/users/{id}", async (UserDbContext db, int id) =>
+            app.MapDelete("/api/users/{username}", async (UserDbContext db, string username) =>
             {
-                if (await db.Users.FindAsync(id) is User userToDelete)
+                if (await db.Users.FindAsync(username) is User userToDelete)
                 {
                     db.Users.Remove(userToDelete);
                     await db.SaveChangesAsync();
